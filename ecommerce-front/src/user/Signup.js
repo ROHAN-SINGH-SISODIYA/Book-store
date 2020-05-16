@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../core/Layout';
 import { signup } from '../auth';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const Signup = () => {
     const [values, setValues] = useState({
@@ -38,25 +40,47 @@ const Signup = () => {
     };
 
     const signUpForm = () => (
-        <form>
-            <div className="form-group">
-                <label className="text-muted">Name</label>
-                <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
-            </div>
+        <div className="pl-5 pr-5 pb-5 pt-3 bg-light">
+            <form>
+                <div className="form-group">
+                    <TextField 
+                      onChange={handleChange('name')} 
+                      type="text"
+                      value={name}
+                      label="Name"
+                      placeholder="Name"
+                      style={{width: '100%'}}
+                    />
+                </div>
 
-            <div className="form-group">
-                <label className="text-muted">Email</label>
-                <input onChange={handleChange('email')} type="email" className="form-control" value={email} />
-            </div>
+                <div className="form-group">
+                    <TextField 
+                      onChange={handleChange('email')} 
+                      type="email"
+                      value={email}
+                      label="Email"
+                      placeholder="Email"
+                      style={{width: '100%'}}
+                    />
+                </div>
 
-            <div className="form-group">
-                <label className="text-muted">Password</label>
-                <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
-            </div>
-            <button onClick={clickSubmit} className="btn btn-primary">
-                Submit
-            </button>
-        </form>
+                <div className="form-group">
+                    <TextField 
+                      onChange={handleChange('password')} 
+                      type="password" 
+                      value={password}
+                      placeholder="Password"
+                      label="Password"
+                      style={{width: '100%'}}
+                    />
+                </div>
+                <div className="text-center">
+                    <Button onClick={clickSubmit} variant="outlined" color="primary">
+                        Submit
+                    </Button>
+                </div>
+            </form>
+        </div>
     );
 
     const showError = () => (
@@ -73,9 +97,9 @@ const Signup = () => {
 
     return (
         <Layout
-            title="Signup"
-            description="Signup to Node React E-commerce App"
-            className="container col-md-8 offset-md-2"
+            title="Sign-Up"
+            description="Add new user"
+            className="container col-md-6 offset-md-3"
         >
             {showSuccess()}
             {showError()}

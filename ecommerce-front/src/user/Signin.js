@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
 import { signin, authenticate, isAuthenticated } from "../auth";
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const Signin = () => {
     const [values, setValues] = useState({
-        email: "ryan@gmail.com",
-        password: "rrrrrr9",
+        email: "",
+        password: "",
         error: "",
         loading: false,
         redirectToReferrer: false
@@ -37,30 +39,36 @@ const Signin = () => {
     };
 
     const signUpForm = () => (
-        <form>
-            <div className="form-group">
-                <label className="text-muted">Email</label>
-                <input
-                    onChange={handleChange("email")}
-                    type="email"
-                    className="form-control"
-                    value={email}
-                />
-            </div>
+        <div className='p-5' style={{ backgroundColor: '#F2F2F2'}}>
+            <form>
+                <div className="form-group">
+                    <TextField
+                        onChange={handleChange("email")}
+                        type="email"
+                        placeholder="Username"
+                        value={email}
+                        label="Username"
+                        style={{width: '100%'}}
+                    />
+                </div>
 
-            <div className="form-group">
-                <label className="text-muted">Password</label>
-                <input
-                    onChange={handleChange("password")}
-                    type="password"
-                    className="form-control"
-                    value={password}
-                />
-            </div>
-            <button onClick={clickSubmit} className="btn btn-primary">
-                Submit
-            </button>
-        </form>
+                <div className="form-group">
+                    <TextField
+                        onChange={handleChange("password")}
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        label="Password"
+                        style={{width: '100%'}}
+                    />
+                </div>
+                <div className="text-center">
+                    <Button onClick={clickSubmit} variant="outlined" color="primary">
+                        Submit
+                    </Button>
+                </div>
+            </form>
+        </div>
     );
 
     const showError = () => (
@@ -94,9 +102,9 @@ const Signin = () => {
 
     return (
         <Layout
-            title="Signin"
-            description="Signin to Node React E-commerce App"
-            className="container col-md-8 offset-md-2"
+            title="Sign-In"
+            description=""
+            className="container col-md-6 offset-md-3"
         >
             {showLoading()}
             {showError()}
