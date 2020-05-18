@@ -4,6 +4,9 @@ import Layout from './Layout';
 import { getCart } from './cartHelpers';
 import Card from './Card';
 import Checkout from './Checkout';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button'
+import CardItem from '@material-ui/core/Card';
 
 const Cart = () => {
     const [items, setItems] = useState([]);
@@ -16,42 +19,62 @@ const Cart = () => {
     const showItems = items => {
         return (
             <div>
-                <h2>Your cart has {`${items.length}`} items</h2>
+                <h5
+                    style={{color: 'blue'}}
+                    className='pt-2 text-center'
+                >
+                    Cart items: {`${items.length}`}
+                </h5>
                 <hr />
-                {items.map((product, i) => (
-                    <Card
-                        key={i}
-                        product={product}
-                        showAddToCartButton={false}
-                        cartUpdate={true}
-                        showRemoveProductButton={true}
-                        setRun={setRun}
-                        run={run}
-                    />
-                ))}
+                <div className="pt-2 pl-5 pr-5 pb-5">
+                    {items.map((product, i) => (
+                        <Card
+                            key={i}
+                            product={product}
+                            showAddToCartButton={false}
+                            cartUpdate={true}
+                            showRemoveProductButton={true}
+                            setRun={setRun}
+                            run={run}
+                        />
+                    ))}
+                </div>
             </div>
         );
     };
 
     const noItemsMessage = () => (
-        <h2>
-            Your cart is empty. <br /> <Link to="/shop">Continue shopping</Link>
-        </h2>
+        <h5>
+            Add item to see! <br/><Link to="/shop">Continue shopping</Link>
+        </h5>
     );
 
     return (
         <Layout
             title="Cart"
-            description="Manage your shopping-cart"
+            description="Shopping-cart"
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-6">{items.length > 0 ? showItems(items) : noItemsMessage()}</div>
-
-                <div className="col-6">
-                    <h2 className="mb-4">Your cart summary</h2>
-                    <hr />
-                    <Checkout products={items} setRun={setRun} run={run} />
+                <div className="col-sm-4">
+                    <CardItem>
+                        {items.length > 0 ? showItems(items) : noItemsMessage()}
+                    </CardItem>
+                </div>
+                <div className="col-sm-8">
+                    <CardItem>
+                        <h5
+                            style={{color: 'blue'}}
+                            className='pt-2 text-center'
+                        >
+                            Your cart summary
+                        </h5>
+                        <hr />
+                        <Box color="text.primary" clone className='p-2'>
+                            <Button />
+                        </Box>
+                        <Checkout products={items} setRun={setRun} run={run} />
+                    </CardItem>
                 </div>
             </div>
         </Layout>

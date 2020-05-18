@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Layout from '../core/Layout';
 import { signup } from '../auth';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const Signup = () => {
     const [values, setValues] = useState({
@@ -84,15 +84,14 @@ const Signup = () => {
     );
 
     const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            {error}
-        </div>
+        <Alert severity="error" className='mb-2'>{error}</Alert>
     );
 
     const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            New account is created. Please <Link to="/signin">Signin</Link>
-        </div>
+        <Alert severity="success" className='mb-2' style={{ display: success ? '' : 'none' }}>
+            <AlertTitle>Success</AlertTitle>
+            <span>User created Successfull!</span>
+        </Alert>
     );
 
     return (
@@ -102,7 +101,7 @@ const Signup = () => {
             className="container col-md-6 offset-md-3"
         >
             {showSuccess()}
-            {showError()}
+            {error && (showError())}
             {signUpForm()}
         </Layout>
     );

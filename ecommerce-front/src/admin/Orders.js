@@ -3,7 +3,9 @@ import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import { listOrders, getStatusValues, updateOrderStatus } from "./apiAdmin";
+import SideNav from '../user/SideNav';
 import moment from "moment";
+import Card from '@material-ui/core/Card';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -44,7 +46,7 @@ const Orders = () => {
                 </h1>
             );
         } else {
-            return <h1 className="text-danger">No orders</h1>;
+            return <h5 style={{color: 'red', textAlign: 'center', padding: '5px'}}>No orders</h5>;
         }
     };
 
@@ -94,15 +96,18 @@ const Orders = () => {
     return (
         <Layout
             title="Orders"
-            description={`G'day ${
-                user.name
-            }, you can manage all the orders here`}
+            description={`Manage your order`}
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-md-8 offset-md-2">
+                <div className="col-md-3">
+                    <Card>
+                        <SideNav/>
+                    </Card>
+                </div>
+                <div className="col-md-9">
+                    <Card style={{height:'450px'}}>
                     {showOrdersLength()}
-
                     {orders.map((o, oIndex) => {
                         return (
                             <div
@@ -161,6 +166,7 @@ const Orders = () => {
                             </div>
                         );
                     })}
+                    </Card>
                 </div>
             </div>
         </Layout>
