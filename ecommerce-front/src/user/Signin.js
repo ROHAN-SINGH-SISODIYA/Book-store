@@ -49,8 +49,8 @@ const Signin = () => {
                     <TextField
                         onChange={handleChange("email")}
                         type="email"
-                        placeholder="Username"
                         value={email}
+                        placeholder="Username"
                         label="Username"
                         style={{width: '100%'}}
                     />

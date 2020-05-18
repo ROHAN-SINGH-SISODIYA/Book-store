@@ -1,13 +1,36 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from '@material-ui/core/styles';
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import { getPurchaseHistory } from "./apiUser";
 import moment from "moment";
+import CardItem from '@material-ui/core/Card';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles({
+    root: {
+      minWidth: 275,
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+});
 
 const Dashboard = () => {
     const [history, setHistory] = useState([]);
-
+    const classes = useStyles();
     const {
         user: { _id, name, email, role }
     } = isAuthenticated();
@@ -29,43 +52,53 @@ const Dashboard = () => {
 
     const userLinks = () => {
         return (
-            <div className="card">
-                <h4 className="card-header">User Links</h4>
-                <ul className="list-group">
-                    <li className="list-group-item">
-                        <Link className="nav-link" to="/cart">
-                            My Cart
-                        </Link>
-                    </li>
-                    <li className="list-group-item">
-                        <Link className="nav-link" to={`/profile/${_id}`}>
-                            Update Profile
-                        </Link>
-                    </li>
-                </ul>
+            <div>
+                <CardItem style={{height: '300px'}}>
+                    <ListItem className="pt-3 pl-3" style={{color: 'black', fontWeight:'bold'}}>User Links</ListItem>
+                    <List className="list-group">
+                        <ListItem className="list-group-item">
+                            <Link className="nav-link" to="/cart" style={{color: 'black'}}>
+                                My Cart
+                            </Link>
+                        </ListItem>
+                        <ListItem className="list-group-item">
+                            <Link className="nav-link" to={`/profile/${_id}`} style={{color: 'black'}}>
+                                Update Profile
+                            </Link>
+                        </ListItem>
+                    </List>
+                </CardItem>
             </div>
         );
     };
 
     const userInfo = () => {
         return (
-            <div className="card mb-5">
-                <h3 className="card-header">User Information</h3>
-                <ul className="list-group">
-                    <li className="list-group-item">{name}</li>
-                    <li className="list-group-item">{email}</li>
-                    <li className="list-group-item">
-                        {role === 1 ? "Admin" : "Registered User"}
-                    </li>
-                </ul>
+            <div  className="mb-5">
+                <CardItem className={classes.root}>
+                    <CardContent>
+                        <Typography variant="h5" component="h2" color='primary'>
+                            User Information
+                        </Typography><hr/>
+                        <Typography className={classes.pos} color="textSecondary">
+                            Name: {name}
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                            Email: {email}
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                            User type: {role === 1 ? "Admin" : "User"}
+                        </Typography>
+                    </CardContent>    
+                </CardItem>
             </div>
         );
     };
 
     const purchaseHistory = history => {
         return (
-            <div className="card mb-5">
-                <h3 className="card-header">Purchase history</h3>
+            <CardItem className="mb-5">
+                <h5 className="card-header" style={{color:'blue'}}>Purchase history</h5>
                 <ul className="list-group">
                     <li className="list-group-item">
                         {history.map((h, i) => {
@@ -93,7 +126,7 @@ const Dashboard = () => {
                         })}
                     </li>
                 </ul>
-            </div>
+            </CardItem>
         );
     };
 
