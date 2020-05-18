@@ -44,7 +44,10 @@ const Cart = () => {
     };
 
     const noItemsMessage = () => (
-        <h5>
+        <h5
+            style={{color: 'blue'}}
+            className='pt-2 text-center'
+        >
             Add item to see! <br/><Link to="/shop">Continue shopping</Link>
         </h5>
     );
@@ -70,10 +73,12 @@ const Cart = () => {
                             Your cart summary
                         </h5>
                         <hr />
-                        <Box color="text.primary" clone className='p-2'>
-                            <Button />
-                        </Box>
-                        <Checkout products={items} setRun={setRun} run={run} />
+                        <div className="pl-4 pr-4 pb-4 pt-0 mt-0">
+                            <Box color="text.primary" clone>
+                                <Button />
+                            </Box>
+                            <Checkout products={items} setRun={setRun} run={run} />
+                        </div>
                     </CardItem>
                 </div>
             </div>

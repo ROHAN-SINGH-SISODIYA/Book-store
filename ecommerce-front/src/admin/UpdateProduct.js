@@ -116,39 +116,39 @@ const UpdateProduct = ({ match }) => {
             {showLoading()}
             {showSuccess()}
             {showError()}
-            <div>
+            <div className="mb-2">
                 <TextField 
                     onChange={handleChange('photo')} 
                     type="file" 
                     name="photo" 
                     accept="image/*"
-                    label="Update Image of Book"
+                    label="Update Image"
                     style={{width: '100%'}}
                 />
             </div>
 
-            <div>
+            <div className="mb-2">
                 <TextField 
                     onChange={handleChange('name')} 
                     type="text" 
-                    defaultValue={name}
-                    label="Update Category Name"
-                    placeholder="Category name"
+                    value={name}
+                    label="Update Book Name"
+                    placeholder="Book name"
                     style={{width: '100%'}}
                 />
             </div>
 
-            <div>
+            <div className="mb-2">
                 <TextField 
                     onChange={handleChange('description')} 
-                    defaultValue={description}
+                    value={description}
                     label="Discription"
                     placeholder="Discription"
                     style={{width: '100%'}}
                 />
             </div>
 
-            <div>
+            <div className="mb-2">
                 <TextField 
                     onChange={handleChange('price')} 
                     type="number" 
@@ -159,11 +159,12 @@ const UpdateProduct = ({ match }) => {
                 />
             </div>
 
-            <div>
+            <div className="mb-2">
                 <label className="text-muted">Category</label>
                 <Select 
                     onChange={handleChange('category')}
                     style={{width: '100%'}}
+                    value={category}
                 >
                     <MenuItem>Please select</MenuItem>
                     {categories &&
@@ -175,19 +176,20 @@ const UpdateProduct = ({ match }) => {
                 </Select>
             </div>
 
-            <div>
+            <div className="mb-2">
                 <label className="text-muted">Shipping</label>
                 <Select 
                     onChange={handleChange('shipping')}
                     style={{width: '100%'}}
+                    value={shipping}
                 >
                     <MenuItem>Please select</MenuItem>
-                    <MenuItem value="0">No</MenuItem>
-                    <MenuItem value="1">Yes</MenuItem>
+                    <MenuItem value="false">No</MenuItem>
+                    <MenuItem value="true">Yes</MenuItem>
                 </Select>
             </div>
 
-            <div>
+            <div className="mb-2">
                 <TextField 
                     onChange={handleChange('quantity')} 
                     type="number" 
@@ -230,11 +232,6 @@ const UpdateProduct = ({ match }) => {
                     <Card>
                         {newPostForm()}
                     </Card>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
-                    {newPostForm()}
                 </div>
             </div>
         </Layout>

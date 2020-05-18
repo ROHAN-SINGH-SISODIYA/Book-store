@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import { withRouter } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import ShowImage from './ShowImage';
 import moment from 'moment';
@@ -16,24 +17,25 @@ import { API } from "../config";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 340,
     maxHeight: 445,
     marginBottom: '5px'
   },
 });
 
-export default function ImgMediaCard(
+export function ImgMediaCard(
   {
     product, showViewProductButton = true, 
     showAddToCartButton = true, 
     cartUpdate = false, 
     showRemoveProductButton = false, 
     setRun = f => f,
-    run = undefined
+    run = undefined,
+    history
   }
 ) {
   const classes = useStyles();
-  const [redirect, setRedirect] = useState(false);
+  const  [setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
 
   const showStock = quantity => {
@@ -44,62 +46,80 @@ export default function ImgMediaCard(
     );
   };
 
-  const handleView = () => {
-
+  const handleView = (id) => {
+    history.push(`/product/${id}`)
   }
-
-  const handleAddToCart = () => {
-
-  }
+  const addToCart = () => {
+    addItem(product, setRedirect(true));
+  };
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="240"
-          image={`${API}/product/photo/${product._id}`}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="h4">
-            {product.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {product.description.substring(0, 50)}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            <span style={{color: 'green'}}>Price: </span>
-            <span style={{color: 'black'}}>
-              $ {product.price}
-            </span>
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          <span style={{color: 'blue'}}>Category: </span>
-            <span style={{color: 'black'}}>
-              {product.category && product.category.name} <i style={{marginLeft:"10%"}}>{showStock(product.quantity)}</i>
-            </span> 
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button 
-          size="small" 
-          variant="outlined" 
-          color="primary"
-          onClick={handleView}
-        >
-          View
-        </Button>
-        <Button 
-          size="small" 
-          variant="outlined" 
-          color="primary"
-          onClick={handleAddToCart}
-        >
-          Add to cart
-        </Button>
-      </CardActions>
-    </Card>
+    <div style={{padding: "5%"}}>
+      <Card className={classes.root}>
+        <CardActionArea style={{paddingTop: "5%", paddingLeft:"5%", paddingRight:'5%', paddingBottom: '0px'}}>
+          <CardMedia
+            component="img"
+            alt="Contemplative Reptile"
+            height="240"
+            image={`${API}/product/photo/${product._id}`}
+          />
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <span style={{fontWeight:'bold'}}>{product.name}</span><br/>
+              {product.description.substring(0, 50)}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <span style={{color: 'green'}}>Price: </span>
+              <span style={{color: 'black'}}>
+                $ {product.price}
+              </span>
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <span style={{color: 'blue'}}>Category: </span>
+              <span style={{color: 'black'}}>
+                {product.category && product.category.name} <i style={{marginLeft:"10%"}}>{showStock(product.quantity)}</i>
+              </span>
+              <div className="mt-1">
+                <Button 
+                  size="small"
+                  variant="outlined" 
+                  color="primary"
+                  onClick={() => handleView(product._id)}
+                  className='mr-2'
+                >
+                  View
+                </Button>
+                {showAddToCartButton && (
+                  <Button 
+                    size="small" 
+                    variant="outlined" 
+                    color="primary"
+                    onClick={addToCart}
+                  >
+                    Add to cart
+                  </Button>
+                )}
+                {showRemoveProductButton && (
+                  <Button 
+                    size="small" 
+                    variant="outlined" 
+                    color="primary"
+                    onClick={() => {
+                      removeItem(product._id);
+                      setRun(!run);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                )}
+                
+              </div>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </div>
   );
 }
+
+export default withRouter(ImgMediaCard)
