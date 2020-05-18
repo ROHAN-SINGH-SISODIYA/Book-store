@@ -4,6 +4,8 @@ import Layout from "../core/Layout";
 import { signin, authenticate, isAuthenticated } from "../auth";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Alert } from '@material-ui/lab';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const Signin = () => {
     const [values, setValues] = useState({
@@ -40,6 +42,8 @@ const Signin = () => {
 
     const signUpForm = () => (
         <div className='p-5' style={{ backgroundColor: '#F2F2F2'}}>
+           
+            {showLoading()}
             <form>
                 <div className="form-group">
                     <TextField
@@ -72,19 +76,12 @@ const Signin = () => {
     );
 
     const showError = () => (
-        <div
-            className="alert alert-danger"
-            style={{ display: error ? "" : "none" }}
-        >
-            {error}
-        </div>
+        <Alert severity="error" className='mb-2'>{error}</Alert>
     );
 
     const showLoading = () =>
         loading && (
-            <div className="alert alert-info">
-                <h2>Loading...</h2>
-            </div>
+            <LinearProgress className='mb-2'/>
         );
 
     const redirectUser = () => {
@@ -105,9 +102,7 @@ const Signin = () => {
             title="Sign-In"
             description=""
             className="container col-md-6 offset-md-3"
-        >
-            {showLoading()}
-            {showError()}
+        >   {error && (showError())}
             {signUpForm()}
             {redirectUser()}
         </Layout>

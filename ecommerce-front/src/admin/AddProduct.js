@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
-import { Link } from 'react-router-dom';
 import { createProduct, getCategories } from './apiAdmin';
+import SideNav from '../user/SideNav';
+import Card from '@material-ui/core/Card';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 const AddProduct = () => {
     const [values, setValues] = useState({
@@ -33,7 +40,6 @@ const AddProduct = () => {
         loading,
         error,
         createdProduct,
-        redirectToProfile,
         formData
     } = values;
 
@@ -85,54 +91,93 @@ const AddProduct = () => {
     };
 
     const newPostForm = () => (
-        <form className="mb-3" onSubmit={clickSubmit}>
-            <h4>Post Photo</h4>
-            <div className="form-group">
-                <label className="btn btn-secondary">
-                    <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
-                </label>
+        <form className="mb-3 pl-5 pr-5 pb-5 pt-2" onSubmit={clickSubmit}>
+            <h4 style={{color: 'blue'}}>Add Product Detail</h4>
+            <hr/>
+            {showLoading()}
+            {showSuccess()}
+            {showError()}
+            <div className="mb-2">
+                <TextField 
+                    onChange={handleChange('photo')} 
+                    type="file" 
+                    name="photo" 
+                    accept="image/*"
+                    style={{width: '100%'}}
+                    label="Book Image"
+                    placeholder="Book Image"
+                />
             </div>
 
-            <div className="form-group">
-                <label className="text-muted">Name</label>
-                <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
+            <div className="mb-2">
+                <TextField 
+                  onChange={handleChange('name')} 
+                  type="text" 
+                  value={name} 
+                  label="Name of Book"
+                  placeholder="Name of Book"
+                  style={{width: '100%'}}
+                />
             </div>
 
-            <div className="form-group">
-                <label className="text-muted">Description</label>
-                <textarea onChange={handleChange('description')} className="form-control" value={description} />
+            <div className="mb-2">
+               <TextField 
+                    onChange={handleChange('description')} 
+                    value={description}
+                    label="Discription*"
+                    placeholder="Discription"
+                    style={{width: '100%'}}
+                />
             </div>
 
-            <div className="form-group">
-                <label className="text-muted">Price</label>
-                <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
+            <div className="mb-2">
+                <TextField 
+                    onChange={handleChange('price')} 
+                    type="number"
+                    value={price}
+                    label="Price*"
+                    placeholder="Price"
+                    style={{width: '100%'}}
+                />
             </div>
 
-            <div className="form-group">
-                <label className="text-muted">Category</label>
-                <select onChange={handleChange('category')} className="form-control">
-                    <option>Please select</option>
+            <div className="mb-2">
+                <label className='text-secondary'>Category</label>
+                <Select 
+                    onChange={handleChange('category')}
+                    style={{width: '100%'}}
+                >
+                    <MenuItem>Book Category</MenuItem>
                     {categories &&
                         categories.map((c, i) => (
-                            <option key={i} value={c._id}>
+                            <MenuItem key={i} value={c._id}>
                                 {c.name}
-                            </option>
+                            </MenuItem>
                         ))}
-                </select>
+                </Select>
             </div>
 
-            <div className="form-group">
-                <label className="text-muted">Shipping</label>
-                <select onChange={handleChange('shipping')} className="form-control">
-                    <option>Please select</option>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
+            <div className="mb-2">
+                <label className='text-secondary'>For Shipping</label>
+                <Select 
+                    onChange={handleChange('shipping')}
+                    style={{width: '100%'}}
+                >
+                    <MenuItem>For Shipping</MenuItem>
+                    <MenuItem value="0">No</MenuItem>
+                    <MenuItem value="1">Yes</MenuItem>
+                </Select>
             </div>
 
-            <div className="form-group">
-                <label className="text-muted">Quantity</label>
-                <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
+            <div className="mb-2">
+                <TextField 
+                    onChange={handleChange('quantity')} 
+                    type="number"
+                    value={quantity}
+                    placeholder='Quantity'
+                    label='Quantity'
+                    style={{width: '100%'}}
+                />
             </div>
 
             <button className="btn btn-outline-primary">Create Product</button>
@@ -140,32 +185,33 @@ const AddProduct = () => {
     );
 
     const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            {error}
-        </div>
+        <Alert severity="error"  style={{ display: error ? '' : 'none' }} className='mb-2'>{error}</Alert>
     );
 
     const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
-            <h2>{`${createdProduct}`} is created!</h2>
-        </div>
+        <Alert severity="success" className='mb-2' style={{ display: createdProduct ? '' : 'none' }}>
+            <AlertTitle>Success</AlertTitle>
+            <span>{createdProduct} is created Successfull!</span>
+        </Alert>
     );
 
     const showLoading = () =>
         loading && (
-            <div className="alert alert-success">
-                <h2>Loading...</h2>
-            </div>
+            <LinearProgress/>
         );
 
     return (
         <Layout title="Add new product" description={`Add new product to list`}>
             <div className="row">
-                <div className="col-md-8 offset-md-2">
-                    {showLoading()}
-                    {showSuccess()}
-                    {showError()}
-                    {newPostForm()}
+                <div className="col-md-3">
+                    <Card>
+                        <SideNav/>
+                    </Card>
+                </div>
+                <div className="col-md-9">
+                    <Card>
+                        {newPostForm()}
+                    </Card>
                 </div>
             </div>
         </Layout>

@@ -42,7 +42,18 @@ const Home = () => {
             className="container-fluid"
         >
             <Search />
-            <h2 className="mb-4">New Arrivals</h2>
+            <h3 
+              style={{
+                backgroundColor:"#ECF0F1", 
+                textAlign: 'center', 
+                color: 'blue', 
+                padding: '10px', 
+                marginBottom: '10px', 
+                fontFamily: '"Gill Sans", sans-serif'
+              }}
+            >
+              New Arrivals
+            </h3>
             <div className="row">
                 {productsByArrival.map((product, i) => (
                     <div key={i} className="col-4 mb-3">
@@ -51,7 +62,18 @@ const Home = () => {
                 ))}
             </div>
 
-            <h2 className="mb-4">Best Sellers</h2>
+            <h3 
+              style={{
+                backgroundColor:"#ECF0F1", 
+                textAlign: 'center', 
+                color: 'blue', 
+                padding: '10px', 
+                marginBottom: '10px', 
+                fontFamily: '"Gill Sans", sans-serif'
+              }}
+            >
+                Best Sellers
+            </h3>
             <div className="row">
                 {productsBySell.map((product, i) => (
                     <div key={i} className="col-4 mb-3">
