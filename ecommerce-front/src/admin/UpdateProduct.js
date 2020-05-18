@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
-import { Link, Redirect } from 'react-router-dom';
 import { getProduct, getCategories, updateProduct } from './apiAdmin';
 import Card from '@material-ui/core/Card';
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -41,7 +40,6 @@ const UpdateProduct = ({ match }) => {
         loading,
         error,
         createdProduct,
-        redirectToProfile,
         formData
     } = values;
 
@@ -115,50 +113,88 @@ const UpdateProduct = ({ match }) => {
     const newPostForm = () => (
         <form className="mb-3 pl-5 pr-5 pb-5 pt-2" onSubmit={clickSubmit}>
             <h4 style={{color: 'blue'}}>Update Product</h4><hr/>
+            {showLoading()}
+            {showSuccess()}
+            {showError()}
             <div>
-                <TextField onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
+                <TextField 
+                    onChange={handleChange('photo')} 
+                    type="file" 
+                    name="photo" 
+                    accept="image/*"
+                    label="Update Image of Book"
+                    style={{width: '100%'}}
+                />
             </div>
 
             <div>
-                <input onChange={handleChange('name')} type="text" value={name} />
+                <TextField 
+                    onChange={handleChange('name')} 
+                    type="text" 
+                    defaultValue={name}
+                    label="Update Category Name"
+                    placeholder="Category name"
+                    style={{width: '100%'}}
+                />
             </div>
 
             <div>
-                <textarea onChange={handleChange('description')} value={description} />
+                <TextField 
+                    onChange={handleChange('description')} 
+                    defaultValue={description}
+                    label="Discription"
+                    placeholder="Discription"
+                    style={{width: '100%'}}
+                />
             </div>
 
             <div>
-                <input onChange={handleChange('price')} type="number" value={price} />
+                <TextField 
+                    onChange={handleChange('price')} 
+                    type="number" 
+                    value={price}
+                    label="Price"
+                    placeholder="Price"
+                    style={{width: '100%'}}
+                />
             </div>
 
             <div>
                 <label className="text-muted">Category</label>
-                <select onChange={handleChange('category')}>
-                    <option>Please select</option>
+                <Select 
+                    onChange={handleChange('category')}
+                    style={{width: '100%'}}
+                >
+                    <MenuItem>Please select</MenuItem>
                     {categories &&
                         categories.map((c, i) => (
-                            <option key={i} value={c._id}>
+                            <MenuItem key={i} value={c._id}>
                                 {c.name}
-                            </option>
+                            </MenuItem>
                         ))}
-                </select>
+                </Select>
             </div>
 
             <div>
                 <label className="text-muted">Shipping</label>
-                <select onChange={handleChange('shipping')}>
-                    <option>Please select</option>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
+                <Select 
+                    onChange={handleChange('shipping')}
+                    style={{width: '100%'}}
+                >
+                    <MenuItem>Please select</MenuItem>
+                    <MenuItem value="0">No</MenuItem>
+                    <MenuItem value="1">Yes</MenuItem>
+                </Select>
             </div>
 
             <div>
-                <input 
+                <TextField 
                     onChange={handleChange('quantity')} 
                     type="number" 
-                    
-                    value={quantity} 
+                    label="Quantity"
+                    value={quantity}
+                    placeholder="Placeholder"
+                    style={{width: '100%'}}
                 />
             </div>
 
@@ -167,31 +203,20 @@ const UpdateProduct = ({ match }) => {
     );
 
     const showError = () => (
-        <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-            {error}
-        </div>
+        <Alert severity="error"  style={{ display: error ? '' : 'none' }} className='mb-2'>{error}</Alert>
     );
 
     const showSuccess = () => (
-        <div className="alert alert-info" style={{ display: createdProduct ? '' : 'none' }}>
-            <h2>{`${createdProduct}`} is updated!</h2>
-        </div>
+        <Alert severity="success" className='mb-2' style={{ display: createdProduct ? '' : 'none' }}>
+            <AlertTitle>Success</AlertTitle>
+            <span>{createdProduct} is Updated Successfull!</span>
+        </Alert>
     );
 
     const showLoading = () =>
         loading && (
-            <div className="alert alert-success">
-                <h2>Loading...</h2>
-            </div>
+            <LinearProgress/>
         );
-
-    const redirectUser = () => {
-        if (redirectToProfile) {
-            if (!error) {
-                return <Redirect to="/" />;
-            }
-        }
-    };
 
     return (
         <Layout title="Add a new product" description={`G'day ${user.name}, ready to add a new product?`}>
@@ -209,9 +234,7 @@ const UpdateProduct = ({ match }) => {
             </div>
             <div className="row">
                 <div className="col-md-8 offset-md-2">
-                    
                     {newPostForm()}
-                    {redirectUser()}
                 </div>
             </div>
         </Layout>
