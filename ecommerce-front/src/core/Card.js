@@ -35,7 +35,7 @@ export function ImgMediaCard(
   }
 ) {
   const classes = useStyles();
-  const  [setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
 
   const showStock = quantity => {
@@ -94,7 +94,7 @@ export function ImgMediaCard(
                     size="small" 
                     variant="outlined" 
                     color="primary"
-                    onClick={addToCart}
+                    onClick={() => addToCart()}
                   >
                     Add to cart
                   </Button>
