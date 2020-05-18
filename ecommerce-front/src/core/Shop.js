@@ -5,6 +5,8 @@ import { getCategories, getFilteredProducts } from "./apiCore";
 import Checkbox from "./Checkbox";
 import RadioBox from "./RadioBox";
 import { prices } from "./fixedPrices";
+import CardItem from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 
 const Shop = () => {
     const [myFilters, setMyFilters] = useState({
@@ -58,9 +60,11 @@ const Shop = () => {
         return (
             size > 0 &&
             size >= limit && (
-                <button onClick={loadMore} className="btn btn-warning mb-5">
-                    Load more
-                </button>
+                <div className="pl-3 pb-3">
+                    <Button onClick={loadMore} variant='outlined' color='primary'>
+                        Load more
+                    </Button>
+                </div>
             )
         );
     };
@@ -97,44 +101,50 @@ const Shop = () => {
 
     return (
         <Layout
-            title="Books Store"
+            title="Books-Store"
             description="Find your best choice"
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-4">
-                    <h4>Filter by categories</h4>
-                    <ul>
-                        <Checkbox
-                            categories={categories}
-                            handleFilters={filters =>
-                                handleFilters(filters, "category")
-                            }
-                        />
-                    </ul>
-
-                    <h4>Filter by price range</h4>
-                    <div>
-                        <RadioBox
-                            prices={prices}
-                            handleFilters={filters =>
-                                handleFilters(filters, "price")
-                            }
-                        />
-                    </div>
-                </div>
-
-                <div className="col-8">
-                    <h2 className="mb-4">Products</h2>
-                    <div className="row">
-                        {filteredResults.map((product, i) => (
-                            <div key={i} className="col-4 mb-3">
-                                <Card product={product} />
+                <div className="col-sm-2">
+                    <CardItem>
+                        <div>
+                            <h6 className="pt-2 pl-2 pr-2">Filter by categories</h6>
+                            <ul>
+                                <Checkbox
+                                    categories={categories}
+                                    handleFilters={filters =>
+                                        handleFilters(filters, "category")
+                                    }
+                                />
+                            </ul>
+                        </div>
+                        <div>
+                            <h6 className="pt-2 pl-2 pr-2">Filter by price</h6>
+                            <div className='mb-3'>
+                                <RadioBox
+                                    prices={prices}
+                                    handleFilters={filters =>
+                                        handleFilters(filters, "price")
+                                    }
+                                />
                             </div>
-                        ))}
-                    </div>
-                    <hr />
-                    {loadMoreButton()}
+                        </div>
+                    </CardItem>
+                </div>
+                <div className="col-sm-10">
+                    <CardItem>
+                        <h4 className="text-center pt-2" style={{color: 'blue'}}>Products</h4><hr/>
+                        <div className="row">
+                            {filteredResults.map((product, i) => (
+                                <div key={i} className="col-4 mb-3">
+                                    <Card product={product} />
+                                </div>
+                            ))}
+                        </div>
+                        <hr />
+                        {loadMoreButton()}
+                    </CardItem>
                 </div>
             </div>
         </Layout>

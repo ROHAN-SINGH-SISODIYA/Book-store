@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getCategories, list } from "./apiCore";
 import Card from "./Card";
+import CardItem from '@material-ui/core/Card';
 
 const Search = () => {
     const [data, setData] = useState({
@@ -63,9 +64,9 @@ const Search = () => {
     const searchedProducts = (results = []) => {
         return (
             <div>
-                <h2 className="mt-4 mb-4">
+                <h4 className="text-center p-2" style={{color: 'blue'}}>
                     {searchMessage(searched, results)}
-                </h2>
+                </h4><hr/>
 
                 <div className="row">
                     {results.map((product, i) => (
@@ -117,7 +118,11 @@ const Search = () => {
         <div className="row">
             <div className="container mb-3">{searchForm()}</div>
             <div className="container-fluid mb-3">
-                {searchedProducts(results)}
+                <div>
+                    { results && (<CardItem>
+                        {searchedProducts(results)}
+                    </CardItem>)}
+                </div>
             </div>
         </div>
     );
